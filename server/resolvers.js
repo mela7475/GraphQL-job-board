@@ -4,7 +4,8 @@ import { getCompany } from './db/companies.js'
 export const resolvers = {
     Query: {
         job: (_root, {id}) => getJob(id),
-        jobs: () => getJobs()
+        jobs: () => getJobs(),
+        company: (_root, {id}) => getCompany(id),
     },
 
     Job: {
