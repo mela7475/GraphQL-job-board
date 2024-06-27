@@ -1,3 +1,22 @@
 type Query {
-    greeting: String
+    jobs: [Job!]
+}
+
+type Company {
+    id: ID!
+    name: String!
+    description: String
+}
+
+"""
+Represents a job ad posted to our board
+"""
+# this is a regular comment and not displayed
+type Job { 
+    id: ID!
+    """The __date__ when the job is published, in ISO-8601 format. E.g. `2022-12-31`."""
+    date: String!
+    title: String!
+    company: Company!
+    description: String
 }
