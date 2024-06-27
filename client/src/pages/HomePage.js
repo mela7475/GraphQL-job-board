@@ -8,6 +8,7 @@ function HomePage() {
   useEffect(() => {
     getJobs().then(setJobs)
   }, [])
+  
   return (
     <div>
       <h1 className="title">
