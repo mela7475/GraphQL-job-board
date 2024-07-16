@@ -26,10 +26,15 @@ app.use(responseTime())
 
 const typeDefs = await readFile('./schema.graphql', 'utf8');
 
+const getContext = ({ req }) => {
+  //console.log('[getContext] req.auth', req.auth)
+  return{ auth: req.auth}
+}
+
 // Serve Apollo UI
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 await apolloServer.start();
-app.use('/graphql', apolloMiddleware(apolloServer));
+app.use('/graphql', apolloMiddleware(apolloServer, { context: getContext}));
 
 // serve swagger UI
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec))
