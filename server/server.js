@@ -11,6 +11,7 @@ import logger from './logger.js';
 import  { readFile } from 'node:fs/promises'
 import { authMiddleware, handleLogin } from './auth.js';
 import { resolvers } from './resolvers.js';
+import { getUser } from './db/users.js';
 
 const PORT = 9000;
 
@@ -26,9 +27,13 @@ app.use(responseTime())
 
 const typeDefs = await readFile('./schema.graphql', 'utf8');
 
-const getContext = ({ req }) => {
+const getContext = async({ req }) => {
   //console.log('[getContext] req.auth', req.auth)
-  return{ auth: req.auth}
+  if(req.auth) {
+    const user = await getUser(req.auth.sub)
+    return { user }
+  }
+  return {}
 }
 
 // Serve Apollo UI
