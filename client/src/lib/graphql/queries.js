@@ -16,7 +16,15 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const apolloClient = new ApolloClient({
     link: concat(authLink, httpLink),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    /* defaultOptions: {
+        query: {
+            fetchPolicy: 'network-only'
+        },
+        watchQuery: {
+            fetchPolicy: 'network-only'
+        }
+    } */
 });
 
 export async function createJob({ title, description}) {
@@ -50,7 +58,10 @@ export const getJobs = async() => {
             date
         }
     }`
-    const { data } = await apolloClient.query({ query })
+    const { data } = await apolloClient.query({ 
+        query,
+        fetchPolicy: 'network-only'
+     })
     return data.jobs
 }
 
