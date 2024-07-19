@@ -28,39 +28,55 @@ export const apolloClient = new ApolloClient({
 });
 
 const jobDetailFragment = gql`
-    fragment JobDetail on Job {
-        id
-         date
-         title
-         description
-         company {
-             id
-             name
-         } 
+  fragment JobDetail on Job {
+    id
+    date
+    title
+    company {
+      id
+      name
     }
-`
+    description
+  }
+`;
 
-const jobByIDQuery = gql`
-query jobByID ($id: ID!) {
-     job(id: $id) {
-        ...JobDetail
-     }
-     ${jobDetailFragment}
- }`
+export const jobByIDQuery = gql`
+    query jobByID ($id: ID!) {
+        job(id: $id) {
+            ...JobDetail
+        }
+    }
+    ${jobDetailFragment}
+ `;
 
 export const companyByIdQuery = gql`
-query comapnyById ($id: ID!) {
-     company(id: $id) {
-         id
-         name
-         description
-         jobs {
-           id
-           title
-           date
-         }
-     }
- }`
+    query comapnyById ($id: ID!) {
+        company(id: $id) {
+            id
+            name
+            description
+            jobs {
+            id
+            title
+            date
+            }
+        }
+    }
+ `;
+
+export const jobsQuery = gql`
+    query Jobs {
+        jobs {
+            id
+            title
+            company {
+                id
+                name
+            }
+            date
+        }
+    }
+`;
 
 export async function createJob({ title, description}) {
     const mutation = gql`
@@ -88,7 +104,7 @@ export async function createJob({ title, description}) {
     return data;
 }
 
-export const getJobs = async() => {
+/* export const getJobs = async() => {
     const query = gql`
     query Jobs {
         jobs {
@@ -106,12 +122,13 @@ export const getJobs = async() => {
         fetchPolicy: 'network-only'
      })
     return data.jobs
-}
+} */
 
-export const getJob = async(id) => {
+/* export const getJob = async(id) => {
     const { data } = await apolloClient.query({ 
         query: jobByIDQuery,
         variables: { id }
      })
     return data.job
 }
+ */
