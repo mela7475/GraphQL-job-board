@@ -22,8 +22,8 @@ export const resolvers = {
     },
 
     Mutation: {
-        createJob: (_root, { input: { title, description}}, { auth }) => {
-            if (!auth) {
+        createJob: (_root, { input: { title, description}}, { user }) => {
+            if (!user) {
                 throw unauthorizedError('Missing authentication')
             }
 
