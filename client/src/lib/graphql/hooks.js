@@ -17,7 +17,7 @@ export const useJob = (id) => {
 
 export const useJobs = () => {
     const {data, loading, error} = useQuery(jobsQuery, {
-        fetchPolicyetchPolicy: 'network-only'
+        fetchPolicy: 'network-only'
     })
     return { jobs: data?.jobs, loading, error: Boolean(error)}
 }
